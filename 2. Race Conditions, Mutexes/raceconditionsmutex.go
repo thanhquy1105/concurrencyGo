@@ -1,0 +1,5 @@
+package raceconditionsmutex
+
+func Main() {
+
+}

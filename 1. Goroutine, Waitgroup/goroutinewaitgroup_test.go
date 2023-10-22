@@ -1,4 +1,4 @@
-package main
+package goroutinewaitgroup
 
 import (
 	"io"
@@ -46,7 +46,7 @@ func Test_main(t *testing.T) {
 	r, w, _ := os.Pipe()
 	os.Stdout = w
 
-	main()
+	Main()
 
 	_ = w.Close()
 
