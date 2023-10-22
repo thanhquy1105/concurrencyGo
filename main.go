@@ -5,35 +5,34 @@ import (
 	"sync"
 )
 
-func printSomething(s string, wg *sync.WaitGroup) {
+var msg string
+var wg sync.WaitGroup
+
+func updateMessage(s string) {
 	defer wg.Done()
-	fmt.Println(s)
+	msg = s
+}
+
+func printMessage() {
+	fmt.Println(msg)
 }
 
 func main() {
-	var wg sync.WaitGroup
-
-	words := []string{
-		"alpha",
-		"beta",
-		"delta",
-		"gamma",
-		"pi",
-		"zeta",
-		"eta",
-		"theta",
-		"epsilon",
-	}
-
-	wg.Add(len(words))
-
-	for i, x := range words {
-		go printSomething(fmt.Sprintf("%d: %s", i, x), &wg)
-	}
-
-	wg.Wait()
+	msg = "Hello, world!"
 
 	wg.Add(1)
-	printSomething("This is the second thing to be printed!", &wg)
+	go updateMessage("Hello, universe!")
+	wg.Wait()
+	printMessage()
+
+	wg.Add(1)
+	go updateMessage("Hello, cosmo!")
+	wg.Wait()
+	printMessage()
+
+	wg.Add(1)
+	go updateMessage("Hello, world!")
+	wg.Wait()
+	printMessage()
 
 }
