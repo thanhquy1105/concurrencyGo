@@ -1,4 +1,4 @@
-package goroutinewaitgroup
+package main
 
 import (
 	"io"

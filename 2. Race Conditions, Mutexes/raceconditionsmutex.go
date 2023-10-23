@@ -1,4 +1,4 @@
-package raceconditionsmutex
+package main
 
 import (
 	"fmt"

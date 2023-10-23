@@ -1,9 +1,9 @@
 package main
 
 import (
-	complexraceconditionsmutex "github.com/thanhquy1105/concurrencyGo/complexraceconditionsmutex/content"
-	goroutinewaitgroup "github.com/thanhquy1105/concurrencyGo/goroutinewaitgroup/content"
-	raceconditionsmutex "github.com/thanhquy1105/concurrencyGo/raceconditionsmutex/content"
+	complexraceconditionsmutex "github.com/thanhquy1105/concurrencyGo/complexraceconditionsmutex"
+	goroutinewaitgroup "github.com/thanhquy1105/concurrencyGo/goroutinewaitgroup"
+	raceconditionsmutex "github.com/thanhquy1105/concurrencyGo/raceconditionsmutex"
 )
 
 func main() {
