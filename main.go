@@ -1,10 +1,13 @@
 package main
 
 import (
-	"github.com/thanhquy1105/concurrencyGo/raceconditionsmutex"
+	complexraceconditionsmutex "github.com/thanhquy1105/concurrencyGo/complexraceconditionsmutex/content"
+	goroutinewaitgroup "github.com/thanhquy1105/concurrencyGo/goroutinewaitgroup/content"
+	raceconditionsmutex "github.com/thanhquy1105/concurrencyGo/raceconditionsmutex/content"
 )
 
 func main() {
-	// goroutinewaitgroup.Main()
-	raceconditionsmutex.Main()
+	goroutinewaitgroup.Run()
+	raceconditionsmutex.Run()
+	complexraceconditionsmutex.Run()
 }

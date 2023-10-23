@@ -1,5 +1,6 @@
 use (
 	"./1. Goroutine, Waitgroup"
 	"./2. Race Conditions, Mutexes"
+	"./2.1 Complex Race Conditions, Mutexes"
 	.
 )

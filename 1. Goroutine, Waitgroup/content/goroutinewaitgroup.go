@@ -17,7 +17,7 @@ func printMessage() {
 	fmt.Println(msg)
 }
 
-func main() {
+func Run() {
 	msg = "Hello, world!"
 
 	wg.Add(1)
@@ -35,8 +35,4 @@ func main() {
 	wg.Wait()
 	printMessage()
 
-}
-
-func Main() {
-	main()
 }

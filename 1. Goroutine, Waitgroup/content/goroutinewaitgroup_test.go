@@ -40,13 +40,13 @@ func Test_printMessage(t *testing.T) {
 	}
 }
 
-func Test_main(t *testing.T) {
+func Test_run(t *testing.T) {
 	stdOut := os.Stdout
 
 	r, w, _ := os.Pipe()
 	os.Stdout = w
 
-	main()
+	Run()
 
 	_ = w.Close()
 

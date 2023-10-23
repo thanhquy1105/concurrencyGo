@@ -1,16 +1,20 @@
 package raceconditionsmutex
 
-import "testing"
+import (
+	"sync"
+	"testing"
+)
 
 // go test -race .
 // go test .
 
 func Test_updateMessage(t *testing.T) {
 	msg = "Hello, world!"
+	var mutex sync.Mutex
 
 	wg.Add(2)
-	go updateMessage("x!")
-	go updateMessage("Goodbye, cruel world!")
+	go updateMessage("x!", &mutex)
+	go updateMessage("Goodbye, cruel world!", &mutex)
 	wg.Wait()
 
 	if msg != "Goodbye, cruel world!" {
