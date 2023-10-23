@@ -46,7 +46,7 @@ func Test_main(t *testing.T) {
 	r, w, _ := os.Pipe()
 	os.Stdout = w
 
-	Main()
+	main()
 
 	_ = w.Close()
 
