@@ -1,4 +1,4 @@
-package main
+package raceconditionsmutex
 
 import (
 	"sync"
@@ -13,8 +13,8 @@ func Test_updateMessage(t *testing.T) {
 	var mutex sync.Mutex
 
 	wg.Add(2)
-	go updateMessage("x!", &mutex)
 	go updateMessage("Goodbye, cruel world!", &mutex)
+	go updateMessage("x!", &mutex)
 	wg.Wait()
 
 	if msg != "Goodbye, cruel world!" {

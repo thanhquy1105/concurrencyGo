@@ -1,4 +1,4 @@
-package main
+package goroutinewaitgroup
 
 import (
 	"fmt"
