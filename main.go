@@ -1,7 +1,7 @@
 package main
 
 import (
-	diningphilosophers "github.com/thanhquy1105/concurrencyGo/diningphilosophers/content"
+	sleepingbarber "github.com/thanhquy1105/concurrencyGo/sleepingbarber/content"
 )
 
 func main() {
@@ -9,5 +9,6 @@ func main() {
 	// raceconditionsmutex.Run()
 	// complexraceconditionsmutex.Run()
 	// producerconsumer.Run()
-	diningphilosophers.Run()
+	// diningphilosophers.Run()
+	sleepingbarber.Run()
 }

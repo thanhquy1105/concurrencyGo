@@ -6,5 +6,6 @@ use (
 	"./2.1 Complex Race Conditions, Mutexes"
 	"./2.2 Producer, Consumer"
 	"./3. Dining Philosophers"
+	"./4. Sleeping Barber"
 	.
 )
