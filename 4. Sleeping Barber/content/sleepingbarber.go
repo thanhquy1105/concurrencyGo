@@ -1,6 +1,7 @@
 package sleepingbarber
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
@@ -32,7 +33,7 @@ import (
 
 // variables
 var seatingCapacity = 10
-var arrivalRate = 100
+var arrivalRate = 200
 var cutDuration = 1000 * time.Millisecond
 var timeOpen = 10 * time.Second
 
@@ -62,11 +63,36 @@ func Run() {
 
 	// add barbers
 	shop.addBarber("Quy")
+	shop.addBarber("Thanh")
 
 	// start the barbershop as a goroutine
+	shopClosing := make(chan bool)
+	closed := make(chan bool)
+
+	go func() {
+		<-time.After(timeOpen)
+		shopClosing <- true
+		shop.closeShopForDay()
+		closed <- true
+	}()
 
 	// add clients
+	i := 1
+
+	go func() {
+		for {
+			// get a random number with average arrival rate
+			randomMillseconds := rand.Int() % (2 * arrivalRate)
+			select {
+			case <-shopClosing:
+				return
+			case <-time.After(time.Millisecond * time.Duration(randomMillseconds)):
+				shop.addClient(fmt.Sprintf("Client #%d", i))
+				i++
+			}
+		}
+	}()
 
 	// block until the barbershop is closed
-	time.Sleep(5 * time.Second)
+	<-closed
 }

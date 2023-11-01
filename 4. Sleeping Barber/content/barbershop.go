@@ -38,7 +38,7 @@ func (shop *BarberShop) addBarber(barber string) {
 				// cut hair
 				shop.cutHair(barber, client)
 			} else {
-				// ship is closed, so send the barber home and close this goroutine
+				// shop is closed, so send the barber home and close this goroutine
 				shop.sendBarberHome(barber)
 				return
 			}
@@ -55,4 +55,35 @@ func (shop *BarberShop) cutHair(barber, client string) {
 func (shop *BarberShop) sendBarberHome(barber string) {
 	color.Cyan("%s is going home.", barber)
 	shop.BarbersDoneChan <- true
+}
+
+func (shop *BarberShop) closeShopForDay() {
+	color.Cyan("Closing shop for the day.")
+
+	close(shop.ClientsChan)
+	shop.Open = false
+
+	for a := 1; a <= shop.NumberOfBarbers; a++ {
+		<-shop.BarbersDoneChan
+	}
+
+	close(shop.BarbersDoneChan)
+
+	color.Green("---------------------------------------------------------------------")
+	color.Green("The barbershop is now closed for the day, and everyone has gone home.")
+}
+
+func (shop *BarberShop) addClient(client string) {
+	color.Green("*** %s arrives!", client)
+
+	if shop.Open {
+		select {
+		case shop.ClientsChan <- client:
+			color.Yellow("%s takes a seat in the waiting room.", client)
+		default:
+			color.Red("The waiting room is full, so %s leaves.", client)
+		}
+	} else {
+		color.Red("The shop is already closed, so %s leaves.", client)
+	}
 }
