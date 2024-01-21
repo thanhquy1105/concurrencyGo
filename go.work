@@ -7,5 +7,6 @@ use (
 	"./2.2 Producer, Consumer"
 	"./3. Dining Philosophers"
 	"./4. Sleeping Barber"
+	"./5. Subscription service"
 	.
 )
