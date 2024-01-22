@@ -2,8 +2,11 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"net/http"
 	"os"
+	"sync"
 	"time"
 
 	_ "github.com/jackc/pgconn"
@@ -15,20 +18,45 @@ const webPort = "80"
 
 func main() {
 	// connect to the database
-	initDB()
+	db := initDB()
+	db.Ping()
 
 	// create sessions
+
+	// create loggers
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	// create channels
 
 	// create waitgroup
+	wg := sync.WaitGroup{}
 
 	// set up the application config
+	app := &Config{
+		Session:  nil,
+		DB:       db,
+		InfoLog:  infoLog,
+		ErrorLog: errorLog,
+		Wait:     &wg,
+	}
 
 	// set up mail
 
 	// listen for web connections
+	app.serve()
+}
 
+func (app *Config) serve() {
+	srv := &http.Server{
+		Addr:    fmt.Sprintf(":%s", webPort),
+		Handler: app.routes(),
+	}
+	app.InfoLog.Println("Starting web server...")
+	err := srv.ListenAndServe()
+	if err != nil {
+		log.Panic(err)
+	}
 }
 
 func initDB() *sql.DB {
@@ -41,10 +69,11 @@ func initDB() *sql.DB {
 
 func connectToDB() *sql.DB {
 	counts := 0
-	dsn := os.Getenv("DSN")
+	DB_URL := os.Getenv("DB_URL")
+	log.Println(DB_URL)
 
 	for {
-		connection, err := openDB(dsn)
+		connection, err := openDB(DB_URL)
 		if err != nil {
 			log.Println("postgres not yet ready...")
 		} else {
@@ -62,8 +91,9 @@ func connectToDB() *sql.DB {
 	}
 }
 
-func openDB(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("pgx", dsn)
+func openDB(DB_URL string) (*sql.DB, error) {
+	db, err := sql.Open("pgx", DB_URL)
+
 	if err != nil {
 		return nil, err
 	}
