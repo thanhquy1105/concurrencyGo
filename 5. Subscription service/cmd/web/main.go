@@ -17,7 +17,11 @@ import (
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
-const webPort = "80"
+const (
+	webPort = "80"
+	DB_URL  = "postgres://root:secret@localhost:5432/concurrency?sslmode=disable"
+	REDIS   = "127.0.0.1:6379"
+)
 
 func main() {
 	// connect to the database
@@ -73,8 +77,6 @@ func initDB() *sql.DB {
 
 func connectToDB() *sql.DB {
 	counts := 0
-	DB_URL := os.Getenv("DB_URL")
-	log.Println(DB_URL)
 
 	for {
 		connection, err := openDB(DB_URL)
@@ -123,7 +125,7 @@ func initRedis() *redis.Pool {
 	redisPool := &redis.Pool{
 		MaxIdle: 10,
 		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", os.Getenv("REDIS"))
+			return redis.Dial("tcp", REDIS)
 		},
 	}
 	return redisPool

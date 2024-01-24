@@ -1,6 +1,4 @@
 BINARY_NAME=myapp.exe
-DB_URL=postgres://root:secret@localhost:5432/concurrency?sslmode=disable
-REDIS=127.0.0.1:6379
 
 ## build: builds all binaries
 build:
@@ -10,10 +8,6 @@ build:
 ## run: builds and runs the application
 run: build
 	@echo Starting...
-	set DB_URL=${DB_URL}
-	set REDIS=${REDIS}
-	set DB_URL
-	set REDIS
 	start /min cmd /c ${BINARY_NAME} &
 	@echo back end started!
 
