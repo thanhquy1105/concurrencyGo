@@ -1,14 +1,12 @@
 package main
 
-import (
-	sleepingbarber "github.com/thanhquy1105/concurrencyGo/sleepingbarber/content"
-)
+import goroutinewaitgroup "github.com/thanhquy1105/concurrencyGo/goroutinewaitgroup/content"
 
 func main() {
-	// goroutinewaitgroup.Run()
+	goroutinewaitgroup.Run()
 	// raceconditionsmutex.Run()
 	// complexraceconditionsmutex.Run()
 	// producerconsumer.Run()
 	// diningphilosophers.Run()
-	sleepingbarber.Run()
+	// sleepingbarber.Run()
 }

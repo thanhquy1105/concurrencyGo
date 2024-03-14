@@ -77,6 +77,8 @@ func (p *Plan) GetOne(id int) (*Plan, error) {
 		return nil, err
 	}
 
+	plan.PlanAmountFormatted = plan.AmountForDisplay()
+
 	return &plan, nil
 }
 
@@ -86,10 +88,17 @@ func (p *Plan) SubscribeUserToPlan(user User, plan Plan) error {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
-	stmt := `insert into user_plans (user_id, plan_id, created_at, updated_at)
+	// delete existing plan, if any
+	stmt := `delete from user_plans where user_id = $1`
+	_, err := db.ExecContext(ctx, stmt, user.ID)
+	if err != nil {
+		return err
+	}
+
+	stmt = `insert into user_plans (user_id, plan_id, created_at, updated_at)
 			values ($1, $2, $3, $4)`
 
-	_, err := db.ExecContext(ctx, stmt, user.ID, plan.ID, time.Now(), time.Now())
+	_, err = db.ExecContext(ctx, stmt, user.ID, plan.ID, time.Now(), time.Now())
 	if err != nil {
 		return err
 	}

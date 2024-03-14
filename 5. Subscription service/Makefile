@@ -34,3 +34,5 @@ restart: stop start
 test:
 	@echo "Testing..."
 	go test -v ./...
+
+.PHONY: start

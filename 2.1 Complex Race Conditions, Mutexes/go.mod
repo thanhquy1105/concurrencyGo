@@ -1,3 +1,3 @@
 module github.com/thanhquy1105/concurrencyGo/complexraceconditionsmutex
 
-go 1.20
+go 1.22
